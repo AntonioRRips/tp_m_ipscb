@@ -13,6 +13,7 @@ class HomeScreen extends StatelessWidget {
     return Scaffold(
       // backgroundColor: Colors.white,
       appBar: PreferredSize(
+          preferredSize: const Size.fromHeight(100),
           child: AppBar(
             backgroundColor: Colors.white,
             flexibleSpace: FlexibleSpaceBar(
@@ -24,8 +25,7 @@ class HomeScreen extends StatelessWidget {
                 ),
               ),
             ),
-          ),
-          preferredSize: const Size.fromHeight(100)),
+          )),
 
       body: GridView.builder(
           gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
@@ -63,7 +63,7 @@ class HomeScreen extends StatelessWidget {
         },
         unselectedItemColor: Colors.blue,
         selectedItemColor: Colors.blueGrey,
-        items: [
+        items:const [
           BottomNavigationBarItem(
             icon: Icon(Icons.home),
             label: 'Home',
@@ -74,7 +74,7 @@ class HomeScreen extends StatelessWidget {
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.settings),
-            label: 'devices',
+            label: 'Devices',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.info),
