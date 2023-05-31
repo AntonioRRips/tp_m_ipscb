@@ -21,7 +21,7 @@ class HomeScreen extends StatelessWidget {
           onTap: () {
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => LoginPage()),
+              MaterialPageRoute(builder: (context) =>const LoginPageForm()),
             );
           },
           child:const CircleAvatar(
@@ -74,6 +74,16 @@ class HomeScreen extends StatelessWidget {
             Navigator.pushReplacement(
           context, MaterialPageRoute(builder: (context) => const HomeScreen()));
           }
+
+          if (index == 4) {
+            Navigator.pushReplacement(
+          context, MaterialPageRoute(builder: (context) => const HomeScreen()));
+          }
+
+          if (index == 5) {
+            Navigator.pushReplacement(
+          context, MaterialPageRoute(builder: (context) => const HomeScreen()));
+          }
         },
         unselectedItemColor: Colors.blue,
         selectedItemColor: Colors.blueGrey,
@@ -83,17 +93,25 @@ class HomeScreen extends StatelessWidget {
             label: 'Home',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.search),
-            label: 'Search',
-          ),
-          BottomNavigationBarItem(
             icon: Icon(Icons.settings),
             label: 'Settings',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.chat),
+            label: 'Chat',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.info),
             label: 'Credits',
           ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.forum),
+            label: 'Forum',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.group),
+            label: 'Salas',
+          )
         ],
       ),
     );
