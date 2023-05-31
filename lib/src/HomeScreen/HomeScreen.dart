@@ -1,6 +1,7 @@
 // ignore_for_file: file_names
 
 import 'package:flutter/material.dart';
+import '../LoginPage/LoginPage.dart';
 import '../SplashScreen/splashScreen.dart';
 import 'Icon_images_dataset.dart';
 import 'icons_cards.dart';
@@ -16,6 +17,19 @@ class HomeScreen extends StatelessWidget {
           preferredSize: const Size.fromHeight(100),
           child: AppBar(
             backgroundColor: Colors.white,
+            leading: GestureDetector(
+          onTap: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) =>const LoginPageForm()),
+            );
+          },
+          child:const CircleAvatar(
+            backgroundImage: AssetImage('assets/images/IPSCB_Logo1.png'),
+            radius: 20 ,
+            backgroundColor: Color.fromARGB(31, 199, 191, 191),
+          ),
+        ),
             flexibleSpace: FlexibleSpaceBar(
               centerTitle: true,
               background: Center(
@@ -60,6 +74,16 @@ class HomeScreen extends StatelessWidget {
             Navigator.pushReplacement(
           context, MaterialPageRoute(builder: (context) => const HomeScreen()));
           }
+
+          if (index == 4) {
+            Navigator.pushReplacement(
+          context, MaterialPageRoute(builder: (context) => const HomeScreen()));
+          }
+
+          if (index == 5) {
+            Navigator.pushReplacement(
+          context, MaterialPageRoute(builder: (context) => const HomeScreen()));
+          }
         },
         unselectedItemColor: Colors.blue,
         selectedItemColor: Colors.blueGrey,
@@ -69,17 +93,25 @@ class HomeScreen extends StatelessWidget {
             label: 'Home',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.search),
-            label: 'Search',
+            icon: Icon(Icons.settings),
+            label: 'Settings',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.settings),
-            label: 'Devices',
+            icon: Icon(Icons.chat),
+            label: 'Chat',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.info),
             label: 'Credits',
           ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.forum),
+            label: 'Forum',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.group),
+            label: 'Salas',
+          )
         ],
       ),
     );
