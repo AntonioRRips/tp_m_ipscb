@@ -48,7 +48,8 @@ class RegistoPage extends State<RegistoPageForm> {
           ),
         ),
       ),
-      body: Padding(
+      body: SingleChildScrollView(
+        child:Padding(
           padding: const EdgeInsets.all(8.0),
           child: Form(
               key: _formKey, // Atribuímos a chave do formulário
@@ -64,15 +65,22 @@ class RegistoPage extends State<RegistoPageForm> {
                           // Tamanho da fonte do texto
                           ),
                     ),
-                    TextFormField(
-                      decoration: const InputDecoration(),
+                    Container(
+                      height: 50,
+                   child: TextFormField(
+                      decoration:  InputDecoration(border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(20)
+                        ),
+                        filled: true,
+                        fillColor: Color.fromARGB(255, 234, 235, 255),),
                       validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return 'Por favor, insira o nome';
+                        if (value == null || value.isEmpty || value.length<10) {
+                          return 'Por favor, insira um Username com mais de 10 carácteres';
                         }
                         return null;
                       },
-                    ),
+                    ),),
+                    const SizedBox(height: 10,),
                     const Text(
                       'NOME',
                       style: TextStyle(
@@ -82,15 +90,22 @@ class RegistoPage extends State<RegistoPageForm> {
                           // Tamanho da fonte do texto
                           ),
                     ),
-                    TextFormField(
-                      decoration: const InputDecoration(),
+                    Container(
+                      height: 50,
+                    child:TextFormField(
+                      decoration: InputDecoration(border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(20)
+                        ),
+                        filled: true,
+                        fillColor: const Color.fromARGB(255, 234, 235, 255),),
                       validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return 'Por favor, insira o nome';
+                        if (value == null || value.isEmpty || value.length<8) {
+                          return 'Por favor, insira por ex.(João André)';
                         }
                         return null;
                       },
-                    ),
+                    ),),
+                    const SizedBox(height: 10,),
                     const Text(
                       'EMAIL',
                       style: TextStyle(
@@ -100,15 +115,24 @@ class RegistoPage extends State<RegistoPageForm> {
                           // Tamanho da fonte do texto
                           ),
                     ),
-                    TextFormField(
-                      decoration: const InputDecoration(),
+                    Container(
+                      height: 50,
+                    child:TextFormField(
+                      decoration:  InputDecoration(
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(20)
+                        ),
+                        filled: true,
+                        fillColor: const Color.fromARGB(255, 234, 235, 255),
+                      ),
                       validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return 'Por favor, insira a password';
+                        if (value == null || value.isEmpty || !value.contains('@') || value.length<10 ) {
+                          return 'Por favor, insira um Email válido com mais de 10 carácteres';
                         }
                         return null;
                       },
-                    ),
+                    ),),
+                    const SizedBox(height: 10,),
                     const Text(
                       'PASSWORD',
                       style: TextStyle(
@@ -118,16 +142,24 @@ class RegistoPage extends State<RegistoPageForm> {
                           // Tamanho da fonte do texto
                           ),
                     ),
-                    TextFormField(
-                      decoration: const InputDecoration(),
+                    Container(
+                      height: 50,
+                    child:TextFormField(
+                      decoration: InputDecoration(
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(20)
+                        ),
+                        filled: true,
+                        fillColor: Color.fromARGB(255, 234, 235, 255),),
                       obscureText: true,
                       validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return 'Por favor, insira a password';
+                        if (value == null || value.isEmpty || value.length<8) {
+                          return 'Por favor, insira uma Password com mais de 8 carácteres';
                         }
                         return null;
                       },
-                    ),
+                    ),),
+                    const SizedBox(height: 10,),
                     Align(
                       alignment: Alignment.center,
                       child: ElevatedButton(
@@ -171,7 +203,7 @@ class RegistoPage extends State<RegistoPageForm> {
                         ),
                       ),
                     )
-                  ]))),
+                  ])))),
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _currentIndex, // Define o índice inicial selecionado
         onTap: (index) {

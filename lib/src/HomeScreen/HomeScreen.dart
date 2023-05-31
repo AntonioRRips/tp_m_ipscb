@@ -17,19 +17,24 @@ class HomeScreen extends StatelessWidget {
           preferredSize: const Size.fromHeight(100),
           child: AppBar(
             backgroundColor: Colors.white,
-            leading: GestureDetector(
-          onTap: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) =>const LoginPageForm()),
-            );
-          },
-          child:const CircleAvatar(
-            backgroundImage: AssetImage('assets/images/IPSCB_Logo1.png'),
-            radius: 20 ,
-            backgroundColor: Color.fromARGB(31, 199, 191, 191),
-          ),
-        ),
+            actions: [
+              Row(
+                children: [
+              GestureDetector(
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => const LoginPageForm()),
+                );
+              },
+              child: const CircleAvatar(
+                backgroundImage: AssetImage('assets/images/IPSCB_Logo1.png'),
+                radius: 20,
+                backgroundColor: Color.fromARGB(31, 199, 191, 191),
+              ),
+            )],),
+            ],
             flexibleSpace: FlexibleSpaceBar(
               centerTitle: true,
               background: Center(
@@ -39,6 +44,7 @@ class HomeScreen extends StatelessWidget {
                 ),
               ),
             ),
+            
           )),
 
       body: GridView.builder(
@@ -47,8 +53,10 @@ class HomeScreen extends StatelessWidget {
           ),
           itemCount: logoImageDataset.length,
           itemBuilder: (BuildContext context, int index) {
+            
             return IconCard(
               logoImage: logoImageDataset[index],
+              
             );
           }),
 
@@ -56,38 +64,38 @@ class HomeScreen extends StatelessWidget {
         currentIndex: 0, // Define o índice inicial selecionado
         onTap: (index) {
           if (index == 0) {
-            Navigator.pushReplacement(
-          context, MaterialPageRoute(builder: (context) => const HomeScreen()));
+            Navigator.pushReplacement(context,
+                MaterialPageRoute(builder: (context) => const HomeScreen()));
           }
 
           if (index == 1) {
-            Navigator.pushReplacement(
-          context, MaterialPageRoute(builder: (context) => const SplashScreen()));
+            Navigator.pushReplacement(context,
+                MaterialPageRoute(builder: (context) => const SplashScreen()));
           }
 
           if (index == 2) {
-            Navigator.pushReplacement(
-          context, MaterialPageRoute(builder: (context) => const HomeScreen()));
+            Navigator.pushReplacement(context,
+                MaterialPageRoute(builder: (context) => const HomeScreen()));
           }
 
           if (index == 3) {
-            Navigator.pushReplacement(
-          context, MaterialPageRoute(builder: (context) => const HomeScreen()));
+            Navigator.pushReplacement(context,
+                MaterialPageRoute(builder: (context) => const HomeScreen()));
           }
 
           if (index == 4) {
-            Navigator.pushReplacement(
-          context, MaterialPageRoute(builder: (context) => const HomeScreen()));
+            Navigator.pushReplacement(context,
+                MaterialPageRoute(builder: (context) => const HomeScreen()));
           }
 
           if (index == 5) {
-            Navigator.pushReplacement(
-          context, MaterialPageRoute(builder: (context) => const HomeScreen()));
+            Navigator.pushReplacement(context,
+                MaterialPageRoute(builder: (context) => const HomeScreen()));
           }
         },
         unselectedItemColor: Colors.blue,
         selectedItemColor: Colors.blueGrey,
-        items:const [
+        items: const [
           BottomNavigationBarItem(
             icon: Icon(Icons.home),
             label: 'Home',
@@ -101,8 +109,8 @@ class HomeScreen extends StatelessWidget {
             label: 'Chat',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.info),
-            label: 'Credits',
+            icon: Icon(Icons.post_add),
+            label: 'Post',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.forum),

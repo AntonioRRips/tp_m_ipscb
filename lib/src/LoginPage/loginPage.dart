@@ -50,38 +50,69 @@ class LoginPage extends State<LoginPageForm> {
           ),
         ),
       ),
-      body: Padding(
+      body: SingleChildScrollView(
+        child:Padding(
         padding: const EdgeInsets.all(16.0),
         child: Form(
           key: _formKey, // Atribuímos a chave do formulário
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              TextFormField(
-                decoration: const InputDecoration(
-                  labelText: 'USERNAME',
-                ),
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Por favor, insira o nome';
-                  }
-                  return null;
-                },
-              ),
+              const Text(
+                      'USARNAME',
+                      style: TextStyle(
+                          color: Colors.blue, // Cor do texto
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold
+                          // Tamanho da fonte do texto
+                          ),
+                    ),
+                    Container(
+                      height: 50,
+                   child: TextFormField(
+                      decoration:  InputDecoration(border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(20)
+                        ),
+                        filled: true,
+                        fillColor: Color.fromARGB(255, 234, 235, 255),),
+                      validator: (value) {
+                        if (value == null || value.isEmpty || value.length<10) {
+                          return 'Por favor, insira um Username com mais de 10 carácteres';
+                        }
+                        return null;
+                      },
+                    ),),
+              const SizedBox(height: 13),
+              const Text(
+                      'PASSWORD',
+                      style: TextStyle(
+                          color: Colors.blue, // Cor do texto
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold
+                          // Tamanho da fonte do texto
+                          ),
+                    ),
+                    Container(
+                      height: 50,
+                    child:TextFormField(
+                      decoration: InputDecoration(
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(20)
+                        ),
+                        filled: true,
+                        fillColor: Color.fromARGB(255, 234, 235, 255),),
+                      obscureText: true,
+                      validator: (value) {
+                        if (value == null || value.isEmpty || value.length<8) {
+                          return 'Por favor, insira uma Password com mais de 8 carácteres';
+                        }
+                        return null;
+                      },
+                    ),),
               const SizedBox(height: 16),
-              TextFormField(
-                decoration: const InputDecoration(
-                  labelText: 'PASSWORD',
-                ),
-                obscureText: true,
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Por favor, insira a password';
-                  }
-                  return null;
-                },
-              ),
-              const SizedBox(height: 16),
-              ElevatedButton(
+              Align(
+                alignment: Alignment.center,
+              child:ElevatedButton(
                 onPressed: () {
                   if (_formKey.currentState!.validate()) {
                     // Lógica para enviar o formulário
@@ -93,8 +124,11 @@ class LoginPage extends State<LoginPageForm> {
                   }
                 },
                 child: const Text('ENTRAR'),
-              ),
-              TextButton(
+              ),),
+              
+              Align(
+                alignment: Alignment.center,
+                child: TextButton(
                 onPressed: () {
                   Navigator.push(
                     context,
@@ -108,12 +142,16 @@ class LoginPage extends State<LoginPageForm> {
                       fontSize: 20,
                       fontWeight: FontWeight.bold),
                 ),
-              ),
+              ),),
               const SizedBox(height: 16),
               const Divider(color: Colors.black),
               const SizedBox(height: 8),
-              const Text('Ainda não tens uma conta?'),
-              TextButton(
+             const Align(
+                alignment: Alignment.center,
+                child: Text('Ainda não tens uma conta?'),),
+             Align(
+              alignment: Alignment.center,
+                child:TextButton(
                   onPressed: () {
                     Navigator.push(
                       context,
@@ -127,11 +165,11 @@ class LoginPage extends State<LoginPageForm> {
                             color: Colors.blue, // Cor do texto
                             fontSize: 20,
                             fontWeight: FontWeight.bold)),
-                  ])),
+                  ])),),
             ],
           ),
         ),
-      ),
+      ),),
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _currentIndex, // Define o índice inicial selecionado
         onTap: (index) {
@@ -185,8 +223,8 @@ class LoginPage extends State<LoginPageForm> {
             label: 'Chat',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.info),
-            label: 'Credits',
+            icon: Icon(Icons.post_add),
+            label: 'Post',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.forum),
