@@ -1,3 +1,5 @@
+// ignore: file_names
+
 import 'package:flutter/material.dart';
 
 class PassRec extends StatelessWidget {
