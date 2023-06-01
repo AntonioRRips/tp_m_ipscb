@@ -1,5 +1,3 @@
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
 import 'package:tp_m_ipscb/src/HomeScreen/logoImage.dart';
 import 'package:tp_m_ipscb/src/SplashScreen/splashScreen.dart';

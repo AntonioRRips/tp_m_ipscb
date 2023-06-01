@@ -18,21 +18,30 @@ class _SplashScreenState extends State {
   @override
   void initState() {
     super.initState();
-    Timer(const Duration(seconds: 2), () {
-      Navigator.pushReplacement(
-          context, MaterialPageRoute(builder: (context) => const HomeScreen()));
+    navigateToNextScreen();
+  }
+
+  void navigateToNextScreen() {
+    // Exemplo de navegação para a próxima tela após 2 segundos
+    Future.delayed(const Duration(seconds: 2), () {
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => const HomeScreen(),
+        ),
+      );
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return const Scaffold(
       //backgroundColor: Colors.black,
       body: SizedBox(
         width: double.infinity,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
-          children: const [
+          children: [
             Image(
               image: AssetImage('assets/images/IPSCB_Logo1.png'),
               width: 300,
