@@ -12,10 +12,11 @@ class IconCard extends StatelessWidget {
     return Scaffold(
       body: InkWell(
         child: Card(
+          color: const Color.fromARGB(255, 187, 191, 255),
           child: ListTile(
             title: Text(logoImage.name,textAlign: TextAlign.center,),
             contentPadding:const EdgeInsets.symmetric(vertical: 50.0),
-            leading: Icon(logoImage.logoImage,size: 100,), // Ícone de dataset
+            leading: Icon(logoImage.logoImage,size: 100,),
           ),
         ),
         onTap: () {
