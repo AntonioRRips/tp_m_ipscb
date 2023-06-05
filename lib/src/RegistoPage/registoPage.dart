@@ -1,6 +1,8 @@
 // ignore_for_file: file_names
 
-//import 'package:cloud_firestore/cloud_firestore.dart';
+
+
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
@@ -25,8 +27,7 @@ class RegistoPage extends State<RegistoPageForm> {
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
   final _usernameController = TextEditingController();
-  String errorMessage = '';
-  String? validationResult;
+  String? errorMessage;
 
   @override
   Widget build(BuildContext context) {
@@ -75,7 +76,7 @@ class RegistoPage extends State<RegistoPageForm> {
                               // Tamanho da fonte do texto
                               ),
                         ),
-                        Container(
+                        SizedBox(
                           height: 50,
                           child: TextFormField(
                             controller: _usernameController,
@@ -108,7 +109,7 @@ class RegistoPage extends State<RegistoPageForm> {
                               // Tamanho da fonte do texto
                               ),
                         ),
-                        Container(
+                        SizedBox(
                           height: 50,
                           child: TextFormField(
                             controller: _nameController,
@@ -141,7 +142,7 @@ class RegistoPage extends State<RegistoPageForm> {
                               // Tamanho da fonte do texto
                               ),
                         ),
-                        Container(
+                        SizedBox(
                           height: 50,
                           child: TextFormField(
                             controller: _emailController,
@@ -156,8 +157,9 @@ class RegistoPage extends State<RegistoPageForm> {
                               if (value == null ||
                                   value.isEmpty ||
                                   !value.contains('@') ||
+                                  // ignore: unnecessary_null_comparison
                                   value.length < 10) {
-                                return 'Por favor, insira um Email válido com mais de 10 carácteres';
+                                return 'Esse tem menos de 10 carateres';
                               }
                               return null;
                             },
@@ -175,7 +177,7 @@ class RegistoPage extends State<RegistoPageForm> {
                               // Tamanho da fonte do texto
                               ),
                         ),
-                        Container(
+                        SizedBox(
                           height: 50,
                           child: TextFormField(
                             controller: _passwordController,
@@ -193,6 +195,7 @@ class RegistoPage extends State<RegistoPageForm> {
                                   value.length < 8) {
                                 return 'Por favor, insira uma Password com mais de 8 carácteres';
                               }
+
                               return null;
                             },
                           ),
@@ -203,10 +206,8 @@ class RegistoPage extends State<RegistoPageForm> {
                         Align(
                           alignment: Alignment.center,
                           child: ElevatedButton(
-                            onPressed: () async {
-                              if (_formKey.currentState!.validate()) {
-                               await registerUser();
-                              }
+                            onPressed: () {
+                              registerUser();
                             },
                             child: const Text('CRIAR CONTA'),
                           ),
@@ -307,101 +308,73 @@ class RegistoPage extends State<RegistoPageForm> {
     );
   }
 
-  Future<void> registerUser() async{
- final auth = FirebaseAuth.instance;
-    try {
-      final String email = _emailController.text.trim();
-      final String password = _passwordController.text.trim();
+  Future<void> registerUser() async {
+    final auth = FirebaseAuth.instance;
+    final String email = _emailController.text.trim();
+    final String password = _passwordController.text.trim();
 
+    try {
+
+      CollectionReference usersRef =
+                                  FirebaseFirestore.instance
+                                      .collection('users');
+
+                              // Cria um documento com um ID automático
+                              DocumentReference novoUser =
+                                  usersRef.doc();
+
+                              // Define os dados do documento
+                              Map<String, dynamic> dados = {
+                                'nome': _nameController.text.trim(),
+                                'email': _emailController.text.trim(),
+                                'username': _usernameController.text.trim(),
+                                'password': _passwordController.text.trim()
+                              };
+
+                              // Adiciona os dados ao documento na coleção "mensagens"
+                              novoUser.set(dados).then((value) {
+                                // Dados adicionados com sucesso
+                                print(
+                                    'Dados adicionados ao Firestore com sucesso!');
+                              }).catchError((error) {
+                                // Ocorreu um erro ao adicionar os dados
+                                print(
+                                    'Erro ao adicionar os dados ao Firestore: $error');
+                              });
+
+                              
       final UserCredential userCredential =
           await auth.createUserWithEmailAndPassword(
         email: email,
         password: password,
       );
-        validationResult = await checkEmailInFirebase(email);
-      // Verificar se a autenticação foi bem-sucedida
-      if(validationResult==null){
-        if (userCredential.user != null) {
+
+      if (userCredential.user != null) {
+        // ignore: use_build_context_synchronously
         Navigator.push(
           context,
           MaterialPageRoute(
             builder: (context) => const HomeScreen(),
           ),
         );
-      }} else {
-        setState(() {
-          errorMessage = 'Email ou senha incorretos';
-        });
       }
-    } catch (e) {
-      setState(() {
-        errorMessage = 'Email ou senha incorretos';
-      });
-    }
-  }
-
-  /*
-  Future<bool> registerUser() async {
-    final auth = FirebaseAuth.instance;
-    final firestore = FirebaseFirestore.instance;
-
-    try {
-      String name = _nameController.text.trim();
-      String email = _emailController.text.trim();
-      String password = _passwordController.text.trim();
-      String username = _usernameController.text.trim();
-      // ignore: unused_local_variable
-      final UserCredential userCredential = await auth
-          .createUserWithEmailAndPassword(email: email, password: password);
-
-      validationResult = await checkEmailInFirebase(email);
-
-      if (validationResult == null) {
-        if (userCredential.user != null) {
-          await firestore
-              .collection('users')
-              .doc(userCredential.user?.uid)
-              .set({
-            'username': username,
-            'name': name,
-          });
-
-          return true;
-        }
-      } else {
-        errorMessage = 'Erro ao registrar. Por favor, tente novamente. ';
-        return false;
-      }
-    } catch (e) {
-      setState(() {
-        errorMessage = 'Erro ao registrar. Por favor, tente novamente.';
-      });
-    }
-    return false;
-  }
-*/
-  Future<String?> checkEmailInFirebase(String email) async {
-    try {
-      // ignore: unused_local_variable
-      UserCredential userCredential =
-          await FirebaseAuth.instance.createUserWithEmailAndPassword(
-        email: email,
-        password:
-            'password', // Você precisa fornecer uma senha válida, mas não a usaremos aqui
-      );
-      // O email ainda não está registrado na Firebase
-      return null;
     } on FirebaseAuthException catch (e) {
       if (e.code == 'email-already-in-use') {
-        // O email já está registrado na Firebase
-        return 'Este email já está em uso. Por favor, utilize outro.';
+        const snackBar = SnackBar(
+          content: Text('Erro: O email atual já está em uso'),
+        );
+        ScaffoldMessenger.of(context).showSnackBar(snackBar);
       } else {
-        // Outro erro ocorreu durante a verificação
-        return 'Ocorreu um erro ao verificar o email.';
+        const snackBar = SnackBar(
+          content: Text('Erro: Ocorreu um erro na verificação do email'),
+        );
+        ScaffoldMessenger.of(context).showSnackBar(snackBar);
       }
     } catch (e) {
-      // Erro genérico
-      return 'Ocorreu um erro ao verificar o email.';
+      const snackBar = SnackBar(
+        content: Text('Erro: Ocorreu um erro'),
+      );
+      ScaffoldMessenger.of(context).showSnackBar(snackBar);
     }
   }
 }

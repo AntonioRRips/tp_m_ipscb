@@ -251,6 +251,7 @@ class LoginPage extends State<LoginPageForm> {
     try {
       final String email = _emailController.text.trim();
       final String password = _passwordController.text.trim();
+      
 
       final UserCredential userCredential =
           await auth.signInWithEmailAndPassword(
