@@ -3,8 +3,10 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:tp_m_ipscb/src/HomeScreen/homeScreen.dart';
+import 'package:tp_m_ipscb/src/InfoPage/infoPage.dart';
 import 'package:tp_m_ipscb/src/PassRec/PassRec.dart';
 import 'package:tp_m_ipscb/src/RegistoPage/registoPage.dart';
+import 'package:tp_m_ipscb/src/SettingsPage/settingsPage.dart';
 
 class LoginPageForm extends StatefulWidget {
   const LoginPageForm({super.key});
@@ -135,7 +137,7 @@ class LoginPage extends State<LoginPageForm> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => const PassRec()),
+                            builder: (context) => const PassRecForm()),
                       );
                     },
                     child: const Text(
@@ -183,35 +185,26 @@ class LoginPage extends State<LoginPageForm> {
           setState(() {});
           if (index == 0) {
             Navigator.pushReplacement(context,
-                MaterialPageRoute(builder: (context) => const HomeScreen()));
+                MaterialPageRoute(builder: (context) =>  const HomeScreen1()));
           }
 
           if (index == 1) {
             Navigator.pushReplacement(
                 context,
                 MaterialPageRoute(
-                    builder: (context) => const RegistoPageForm()));
+                    builder: (context) => const SettingsPage()));
           }
 
           if (index == 2) {
             Navigator.pushReplacement(context,
-                MaterialPageRoute(builder: (context) => const HomeScreen()));
+                MaterialPageRoute(builder: (context) =>  const HomeScreen1()));
           }
 
           if (index == 3) {
-            Navigator.pushReplacement(context,
-                MaterialPageRoute(builder: (context) => const HomeScreen()));
+            Navigator.push(context,
+                MaterialPageRoute(builder: (context) =>  const InfoPage()));
           }
-
-          if (index == 4) {
-            Navigator.pushReplacement(context,
-                MaterialPageRoute(builder: (context) => const HomeScreen()));
-          }
-
-          if (index == 5) {
-            Navigator.pushReplacement(context,
-                MaterialPageRoute(builder: (context) => const HomeScreen()));
-          }
+          
         },
         unselectedItemColor: Colors.blue,
         selectedItemColor: Colors.blueGrey,
@@ -221,14 +214,6 @@ class LoginPage extends State<LoginPageForm> {
             label: 'Home',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.settings),
-            label: 'Settings',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.chat),
-            label: 'Chat',
-          ),
-          BottomNavigationBarItem(
             icon: Icon(Icons.post_add),
             label: 'Post',
           ),
@@ -236,9 +221,9 @@ class LoginPage extends State<LoginPageForm> {
             icon: Icon(Icons.forum),
             label: 'Forum',
           ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.group),
-            label: 'Salas',
+           BottomNavigationBarItem(
+            icon: Icon(Icons.info),
+            label: 'Info',
           ),
         ],
       ),
@@ -264,18 +249,20 @@ class LoginPage extends State<LoginPageForm> {
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => const HomeScreen(),
+            builder: (context) =>  const HomeScreen(),
           ),
         );
       } else {
-        setState(() {
-          errorMessage = 'Email ou senha incorretos';
-        });
+       const snackBar = SnackBar(
+          content: Text('Erro: Email ou senha incorretos'),
+        );
+        ScaffoldMessenger.of(context).showSnackBar(snackBar);
       }
     } catch (e) {
-      setState(() {
-        errorMessage = 'Email ou senha incorretos';
-      });
+      const snackBar = SnackBar(
+          content: Text('Erro: Email ou senha incorretos'),
+        );
+        ScaffoldMessenger.of(context).showSnackBar(snackBar);
     }
   }
 }
