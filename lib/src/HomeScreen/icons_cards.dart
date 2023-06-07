@@ -10,9 +10,11 @@ class IconCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       body: InkWell(
         child: Card(
           color: const Color.fromARGB(255, 187, 191, 255),
+          margin: const EdgeInsets.all(12),
           child: ListTile(
             title: Text(logoImage.name,textAlign: TextAlign.center,),
             contentPadding:const EdgeInsets.symmetric(vertical: 50.0),
@@ -20,6 +22,7 @@ class IconCard extends StatelessWidget {
           ),
         ),
         onTap: () {
+        
           Navigator.of(context).push(
             MaterialPageRoute(
               builder: (_) => const SplashScreen(),

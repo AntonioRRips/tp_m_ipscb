@@ -5,8 +5,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:tp_m_ipscb/src/HomeScreen/homeScreen.dart';
+import 'package:tp_m_ipscb/src/InfoPage/infoPage.dart';
 
-import '../HomeScreen/HomeScreen.dart';
+
 import '../LoginPage/LoginPage.dart';
 
 class RegistoPageForm extends StatefulWidget {
@@ -246,7 +248,7 @@ class RegistoPage extends State<RegistoPageForm> {
         onTap: (index) {
           if (index == 0) {
             Navigator.pushReplacement(context,
-                MaterialPageRoute(builder: (context) => const HomeScreen()));
+                MaterialPageRoute(builder: (context) => const HomeScreen1()));
           }
 
           if (index == 1) {
@@ -258,22 +260,12 @@ class RegistoPage extends State<RegistoPageForm> {
 
           if (index == 2) {
             Navigator.pushReplacement(context,
-                MaterialPageRoute(builder: (context) => const HomeScreen()));
+                MaterialPageRoute(builder: (context) => const HomeScreen1()));
           }
 
           if (index == 3) {
-            Navigator.pushReplacement(context,
-                MaterialPageRoute(builder: (context) => const HomeScreen()));
-          }
-
-          if (index == 4) {
-            Navigator.pushReplacement(context,
-                MaterialPageRoute(builder: (context) => const HomeScreen()));
-          }
-
-          if (index == 5) {
-            Navigator.pushReplacement(context,
-                MaterialPageRoute(builder: (context) => const HomeScreen()));
+            Navigator.push(context,
+                MaterialPageRoute(builder: (context) => const InfoPage()));
           }
         },
         unselectedItemColor: Colors.blue,
@@ -284,24 +276,16 @@ class RegistoPage extends State<RegistoPageForm> {
             label: 'Home',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.settings),
-            label: 'Settings',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.chat),
-            label: 'Chat',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.info),
-            label: 'Credits',
+            icon: Icon(Icons.post_add),
+            label: 'Post',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.forum),
             label: 'Forum',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.group),
-            label: 'Salas',
+            icon: Icon(Icons.info),
+            label: 'Info',
           ),
         ],
       ),
@@ -334,12 +318,10 @@ class RegistoPage extends State<RegistoPageForm> {
                               // Adiciona os dados ao documento na coleção "mensagens"
                               novoUser.set(dados).then((value) {
                                 // Dados adicionados com sucesso
-                                print(
-                                    'Dados adicionados ao Firestore com sucesso!');
+                                
                               }).catchError((error) {
                                 // Ocorreu um erro ao adicionar os dados
-                                print(
-                                    'Erro ao adicionar os dados ao Firestore: $error');
+                              
                               });
 
                               

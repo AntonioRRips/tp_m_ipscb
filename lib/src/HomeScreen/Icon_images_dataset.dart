@@ -6,12 +6,11 @@ import 'package:tp_m_ipscb/src/HomeScreen/logoImage.dart';
 final List<LogoImage> logoImageDataset = [
   const LogoImage(
     name: 'Forum',
-    logoImage: Icons.forum ,
+    logoImage: Icons.forum,
   ),
   const LogoImage(
     name: 'Post',
-    logoImage:Icons.post_add
-        ,
+    logoImage: Icons.post_add,
   ),
   const LogoImage(
     name: 'Chat',
@@ -19,7 +18,17 @@ final List<LogoImage> logoImageDataset = [
   ),
   const LogoImage(
     name: 'Salas',
-    logoImage: Icons.group
-        ,
+    logoImage: Icons.group,
   )
+];
+
+final List<LogoImage> logoImageDataset1 = [
+  const LogoImage(
+    name: 'Forum',
+    logoImage: Icons.forum,
+  ),
+  const LogoImage(
+    name: 'Post',
+    logoImage: Icons.post_add,
+  ),
 ];
