@@ -86,7 +86,7 @@ class PassRec extends State<PassRecForm> {
                               if (value == null ||
                                   value.isEmpty ||
                                   value.length < 10) {
-                                return 'Por favor, insira um Username com mais de 10 carácteres';
+                                return 'Por favor, insira um Email com mais de 10 carácteres';
                               }
                               return null;
                             },

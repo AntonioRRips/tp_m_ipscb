@@ -1,5 +1,9 @@
 // ignore_for_file: file_names
 
+import 'dart:async';
+
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:tp_m_ipscb/src/InfoPage/infoPage.dart';
 import 'package:tp_m_ipscb/src/SettingsPage/settingsPage.dart';
@@ -7,8 +11,31 @@ import '../LoginPage/LoginPage.dart';
 import 'Icon_images_dataset.dart';
 import 'icons_cards.dart';
 
-class HomeScreen extends StatelessWidget {
+
+class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
+
+  @override
+  HomeScreenPage createState() {
+    return HomeScreenPage();
+  }
+}
+
+class HomeScreenPage extends State<HomeScreen> {
+  String profilePhoto =
+      'https://static.vecteezy.com/system/resources/previews/000/367/333/original/edit-profile-vector-icon.jpg';
+  FirebaseAuth auth = FirebaseAuth.instance;
+  FirebaseStorage storage = FirebaseStorage.instance;
+  double luminosity = 0.0;
+  
+
+  @override
+  void initState() {
+    super.initState();
+    loadProfilePhoto();
+  }
+
+  
 
   @override
   Widget build(BuildContext context) {
@@ -26,14 +53,13 @@ class HomeScreen extends StatelessWidget {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => const LoginPageForm()),
+                            builder: (context) => const SettingsPage()),
                       );
                     },
-                    child: const CircleAvatar(
-                      backgroundImage:
-                          AssetImage('assets/images/IPSCB_Logo1.png'),
+                    child: CircleAvatar(
+                      backgroundImage: NetworkImage(profilePhoto),
                       radius: 20,
-                      backgroundColor: Color.fromARGB(31, 199, 191, 191),
+                      backgroundColor: const Color.fromARGB(31, 199, 191, 191),
                     ),
                   )
                 ],
@@ -121,7 +147,8 @@ class HomeScreen extends StatelessWidget {
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.group),
-            label: 'Salas',),
+            label: 'Salas',
+          ),
           BottomNavigationBarItem(
             icon: Icon(Icons.info),
             label: 'Info',
@@ -129,6 +156,41 @@ class HomeScreen extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  Future<String> getProfileFoto() async {
+    if (auth.currentUser != null) {
+      // Obter o ID do usuário atualmente logado
+      final userId = auth.currentUser!.uid;
+
+      // Referência ao arquivo de imagem no Firebase Storage
+      final storageRef = storage.ref().child('Profile_Pictures/$userId');
+
+      try {
+        // Obter o URL da imagem no Firebase Storage
+        final url = await storageRef.getDownloadURL();
+        profilePhoto = url;
+
+        // Retornar o URL da imagem
+        return profilePhoto;
+      } catch (e) {
+        return profilePhoto;
+      }
+    } else {
+      return profilePhoto;
+    }
+  }
+
+  Future<void> loadProfilePhoto() async {
+    // Aqui você pode fazer a chamada ao banco de dados para buscar o nome do usuário
+    // e atribuí-lo à variável userName.
+    // Exemplo:
+    // Função para buscar o nome do usuário na base de dados
+    String? foto = await getProfileFoto();
+    // Atualize o estado do Widget com o valor obtido
+    setState(() {
+      profilePhoto = foto;
+    });
   }
 }
 
@@ -161,7 +223,8 @@ class HomeScreen1 extends StatelessWidget {
                           borderRadius: BorderRadius.circular(
                               30.0), // Define o raio do botão
                         ),
-                        backgroundColor: const Color.fromARGB(255, 150, 157, 252),
+                        backgroundColor:
+                            const Color.fromARGB(255, 150, 157, 252),
                       ),
                       child: const Text('ENTRAR'),
                     ),
@@ -227,7 +290,7 @@ class HomeScreen1 extends StatelessWidget {
             icon: Icon(Icons.forum),
             label: 'Forum',
           ),
-           BottomNavigationBarItem(
+          BottomNavigationBarItem(
             icon: Icon(Icons.info),
             label: 'Info',
           ),
