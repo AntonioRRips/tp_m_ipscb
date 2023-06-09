@@ -299,20 +299,31 @@ class RegistoPage extends State<RegistoPageForm> {
 
     try {
 
+       final UserCredential userCredential =
+          await auth.createUserWithEmailAndPassword(
+        email: email,
+        password: password,
+      );
+
+      final userId = userCredential.user!.uid;
+
+     
+
       CollectionReference usersRef =
                                   FirebaseFirestore.instance
                                       .collection('users');
 
                               // Cria um documento com um ID automático
                               DocumentReference novoUser =
-                                  usersRef.doc();
+                                  usersRef.doc(userId);
 
                               // Define os dados do documento
                               Map<String, dynamic> dados = {
                                 'nome': _nameController.text.trim(),
                                 'email': _emailController.text.trim(),
                                 'username': _usernameController.text.trim(),
-                                'password': _passwordController.text.trim()
+                                'password': _passwordController.text.trim(),
+                                'photoUrl':null,
                               };
 
                               // Adiciona os dados ao documento na coleção "mensagens"
@@ -324,21 +335,15 @@ class RegistoPage extends State<RegistoPageForm> {
                               
                               });
 
-                              
-      final UserCredential userCredential =
-          await auth.createUserWithEmailAndPassword(
-        email: email,
-        password: password,
-      );
-
-      if (userCredential.user != null) {
+                               if (userCredential.user != null) {
         // ignore: use_build_context_synchronously
         Navigator.push(
           context,
           MaterialPageRoute(
             builder: (context) => const HomeScreen(),
           ),
-        );
+        );                  
+     
       }
     } on FirebaseAuthException catch (e) {
       if (e.code == 'email-already-in-use') {

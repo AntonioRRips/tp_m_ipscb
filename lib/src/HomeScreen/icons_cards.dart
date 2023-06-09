@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:tp_m_ipscb/src/HomeScreen/homeScreen.dart';
 import 'package:tp_m_ipscb/src/HomeScreen/logoImage.dart';
-import 'package:tp_m_ipscb/src/SplashScreen/splashScreen.dart';
+import 'package:tp_m_ipscb/src/LoginPage/LoginPage.dart';
+import 'package:tp_m_ipscb/src/RegistoPage/registoPage.dart';
+import 'package:tp_m_ipscb/src/SettingsPage/settingsPage.dart';
+
 
 class IconCard extends StatelessWidget {
   const IconCard({super.key, required this.logoImage,});
@@ -25,11 +29,32 @@ class IconCard extends StatelessWidget {
         
           Navigator.of(context).push(
             MaterialPageRoute(
-              builder: (_) => const SplashScreen(),
+              builder: (_) => getPageWidget(logoImage.idPage),
             ),
           );
         },
       ),
     );
   }
+
+  Widget getPageWidget(int pageId) {
+
+    // ignore: unnecessary_null_comparison
+    if (pageId != null) {
+      // ignore: unrelated_type_equality_checks
+      if (pageId == 0) {
+        return const HomeScreen();
+      // ignore: unrelated_type_equality_checks
+      } else if (pageId == 1) {
+        return const RegistoPageForm();
+      } else if (pageId == 2) {
+        return const SettingsPage();
+      } else if (pageId==3){
+          return const LoginPageForm();
+      }
+    }
+
+    return const Placeholder(); // Retorna um widget vazio ou um widget de erro, caso o identificador não corresponda a nenhuma página.
+  }
 }
+
