@@ -20,11 +20,10 @@ dependencies:
   firebase_database: ^10.2.2
   firebase_storage: ^11.2.2
   image_picker: ^0.8.7+5
-  
-  screen_brightness: ^0.2.2
-  sensors_plus: ^3.0.2
-  flutter_sensors: ^1.0.1
   shared_preferences: ^2.1.2
+  provider: ^6.0.5
+ 
+ 
   
   
 
