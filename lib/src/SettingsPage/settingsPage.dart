@@ -9,9 +9,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:tp_m_ipscb/src/InfoPage/infoPage.dart';
+import 'package:tp_m_ipscb/src/SharedPreferencesService.dart';
 
 import '../HomeScreen/homeScreen.dart';
-import '../sharedPreferencesManager.dart';
 
 class SettingsPage extends StatefulWidget {
   const SettingsPage({super.key});
@@ -23,7 +23,7 @@ class SettingsPage extends StatefulWidget {
 }
 
 class SettingsPageState extends State<SettingsPage> {
-  final SharedPreferencesManager prefsManager = SharedPreferencesManager();
+  final SharedPreferencesService prefs = SharedPreferencesService();
   FirebaseAuth auth = FirebaseAuth.instance;
   final FirebaseFirestore firestore = FirebaseFirestore.instance;
   final picker = ImagePicker();
@@ -36,13 +36,13 @@ class SettingsPageState extends State<SettingsPage> {
   String profilePhoto =
       'https://static.vecteezy.com/system/resources/previews/000/367/333/original/edit-profile-vector-icon.jpg';
   XFile? selectedImage;
-  bool? isSwitched;
+  bool isSwitched = false;
 
   @override
   void initState() {
     super.initState();
     loadUserNameAndProfilePhoto();
-    initSharedPreferences();
+    getSwitchValue();
   }
 
   @override
@@ -184,8 +184,9 @@ class SettingsPageState extends State<SettingsPage> {
                 width: 190,
               ),
               CupertinoSwitch(
-                value: isSwitched ?? false,
+                value: isSwitched,
                 onChanged: (value) {
+                  saveSwitchValue(value);
                   setState(() {
                     isSwitched = value;
                   });
@@ -426,34 +427,34 @@ class SettingsPageState extends State<SettingsPage> {
           currentIndex: currentIndex, // Define o índice inicial selecionado
           onTap: (index) {
             if (index == 0) {
-              Navigator.pushReplacement(context,
+              Navigator.push(context,
                   MaterialPageRoute(builder: (context) => const HomeScreen()));
             }
 
             if (index == 1) {
-              Navigator.pushReplacement(
+              Navigator.push(
                   context,
                   MaterialPageRoute(
                       builder: (context) => const SettingsPage()));
             }
 
             if (index == 2) {
-              Navigator.pushReplacement(context,
+              Navigator.push(context,
                   MaterialPageRoute(builder: (context) => const HomeScreen()));
             }
 
             if (index == 3) {
-              Navigator.pushReplacement(context,
+              Navigator.push(context,
                   MaterialPageRoute(builder: (context) => const HomeScreen()));
             }
 
             if (index == 4) {
-              Navigator.pushReplacement(context,
+              Navigator.push(context,
                   MaterialPageRoute(builder: (context) => const HomeScreen()));
             }
 
             if (index == 5) {
-              Navigator.pushReplacement(context,
+              Navigator.push(context,
                   MaterialPageRoute(builder: (context) => const HomeScreen()));
             }
             if (index == 6) {
@@ -496,7 +497,492 @@ class SettingsPageState extends State<SettingsPage> {
         ),
       );
     } else {
-      return Scaffold();
+      return Scaffold(
+        backgroundColor: Colors.black,
+        appBar: PreferredSize(
+          preferredSize:
+              const Size.fromHeight(130), // Defina o tamanho desejado
+          child: AppBar(
+            backgroundColor: Colors.black,
+            flexibleSpace: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                Image.asset(
+                  'assets/images/iconeDarkMode.png', // Caminho para a imagem
+                  height: 100, // Altura da imagem
+                  fit: BoxFit
+                      .cover, // Ajustar a imagem ao tamanho do espaço disponível
+                ),
+                const Row(
+                  children: [
+                    SizedBox(
+                      width: 25,
+                    ),
+                    Icon(
+                      Icons.settings_suggest_outlined,
+                      color: Colors.white,
+                      size: 30,
+                    ),
+                    Column(
+                      children: [
+                        SizedBox(
+                          height: 15,
+                        ),
+                        Text(
+                          'DEFINIÇÕES',
+                          style: TextStyle(
+                              color: Colors.white, // Cor do texto
+                              fontSize: 25,
+                              fontWeight:
+                                  FontWeight.bold // Tamanho da fonte do texto
+                              ),
+                        ),
+                      ],
+                    )
+                  ],
+                ),
+              ],
+            ),
+          ),
+        ),
+        body: Column(children: [
+          const SizedBox(
+            height: 10,
+          ),
+          Row(children: [
+            CircleAvatar(
+              radius: 40,
+              backgroundImage: NetworkImage(profilePhoto),
+            ),
+            const SizedBox(
+              width: 20,
+            ),
+            Column(children: [
+              const SizedBox(
+                height: 20,
+              ),
+              Text(
+                userName ?? 'Carregando...',
+                style: const TextStyle(
+                  fontSize: 20,
+                  color: Colors.white,
+                ),
+              ),
+              const SizedBox(
+                height: 2,
+              ),
+              const Text(
+                'Atualizar foto de perfil',
+                style: TextStyle(
+                  color: Colors.white,
+                ),
+              ),
+            ]),
+            const SizedBox(
+              width: 120,
+            ),
+            IconButton(
+              onPressed: () {
+                showDialog(
+                  context: context,
+                  builder: (BuildContext context) {
+                    return AlertDialog(
+                      title: const Text('Alterar Foto de Perfil'),
+                      content: const Text('Selecione uma nova foto de perfil.'),
+                      actions: [
+                        TextButton(
+                          onPressed: () {
+                            // Fechar o popup
+                            Navigator.of(context).pop();
+                          },
+                          child: const Text('Cancelar'),
+                        ),
+                        TextButton(
+                          onPressed: pickImage,
+                          child: const Text('Selecionar Foto'),
+                        ),
+                        TextButton(
+                          onPressed: uploadImageToStorage,
+                          child: const Text('Alterar'),
+                        ),
+                      ],
+                    );
+                  },
+                );
+              },
+              icon: const Icon(
+                Icons.arrow_forward_ios,
+                color: Colors.white,
+              ),
+            ),
+          ]),
+          const Divider(
+            color: Colors.white,
+          ),
+          Row(
+            children: [
+              const SizedBox(
+                width: 10,
+              ),
+              const Icon(
+                Icons.dark_mode_sharp,
+                size: 30,
+                color: Colors.white,
+              ),
+              const SizedBox(
+                width: 13,
+              ),
+              const Text(
+                'Dark Mode',
+                style: TextStyle(
+                  fontSize: 20,
+                  color: Colors.white,
+                ),
+              ),
+              const SizedBox(
+                width: 190,
+              ),
+              CupertinoSwitch(
+                value: isSwitched,
+                onChanged: (value) {
+                  saveSwitchValue(value);
+                  setState(() {
+                    isSwitched = value;
+                  });
+                },
+              ),
+            ],
+          ),
+          const SizedBox(height: 2),
+          const Divider(
+            color: Colors.white,
+          ),
+          Row(
+            children: [
+              const SizedBox(
+                width: 55,
+              ),
+              const Text(
+                'Alterar password',
+                style: TextStyle(
+                  color: Colors.white,
+                ),
+              ),
+              const SizedBox(
+                width: 195,
+              ),
+              IconButton(
+                onPressed: () {
+                  showDialog(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return AlertDialog(
+                        title: const Text('Alterar Password'),
+                        content: const Text('Insira uma nova password'),
+                        actions: [
+                          TextButton(
+                            onPressed: () {
+                              // Fechar o popup
+                              Navigator.of(context).pop();
+                            },
+                            child: const Text('Cancelar'),
+                          ),
+                          Form(
+                              key: _formKey,
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  const Text(
+                                    'Nova Password',
+                                    style: TextStyle(
+                                        color: Colors.blue, // Cor do texto
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.bold
+                                        // Tamanho da fonte do texto
+                                        ),
+                                  ),
+                                  SizedBox(
+                                    height: 50,
+                                    child: TextFormField(
+                                      controller: _passwordController,
+                                      decoration: InputDecoration(
+                                        border: OutlineInputBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(20)),
+                                        filled: true,
+                                        fillColor: const Color.fromARGB(
+                                            255, 234, 235, 255),
+                                      ),
+                                      validator: (value) {
+                                        if (value == null ||
+                                            value.isEmpty ||
+                                            value.length < 8) {
+                                          return 'Por favor, insira uma Password com mais de 8 carácteres';
+                                        }
+                                        return null;
+                                      },
+                                    ),
+                                  ),
+                                ],
+                              )),
+                          TextButton(
+                            onPressed: changePassword,
+                            child: const Text('Alterar'),
+                          ),
+                        ],
+                      );
+                    },
+                  );
+                },
+                icon: const Icon(
+                  Icons.arrow_forward_ios,
+                  color: Colors.white,
+                ),
+              )
+            ],
+          ),
+          const Divider(
+            color: Colors.white,
+          ),
+          const SizedBox(height: 2),
+          Row(
+            children: [
+              const SizedBox(
+                width: 55,
+              ),
+              const Text(
+                'Alterar email',
+                style: TextStyle(color: Colors.white),
+              ),
+              const SizedBox(
+                width: 221,
+              ),
+              IconButton(
+                onPressed: () {
+                  showDialog(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return AlertDialog(
+                        title: const Text('Alterar Email'),
+                        content: const Text('Insira um novo email'),
+                        actions: [
+                          TextButton(
+                            onPressed: () {
+                              // Fechar o popup
+                              Navigator.of(context).pop();
+                            },
+                            child: const Text('Cancelar'),
+                          ),
+                          Form(
+                              key: _formKey,
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  const Text(
+                                    'Nova Email',
+                                    style: TextStyle(
+                                        color: Colors.blue, // Cor do texto
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.bold
+                                        // Tamanho da fonte do texto
+                                        ),
+                                  ),
+                                  SizedBox(
+                                    height: 50,
+                                    child: TextFormField(
+                                      controller: _emailController,
+                                      decoration: InputDecoration(
+                                        border: OutlineInputBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(20)),
+                                        filled: true,
+                                        fillColor: const Color.fromARGB(
+                                            255, 234, 235, 255),
+                                      ),
+                                      validator: (value) {
+                                        if (value == null ||
+                                            value.isEmpty ||
+                                            value.length < 8) {
+                                          return 'Por favor, insira uma Email com mais de 8 carácteres';
+                                        }
+                                        return null;
+                                      },
+                                    ),
+                                  ),
+                                ],
+                              )),
+                          TextButton(
+                            onPressed: changeEmail,
+                            child: const Text('Alterar'),
+                          ),
+                        ],
+                      );
+                    },
+                  );
+                },
+                icon: const Icon(
+                  Icons.arrow_forward_ios,
+                  color: Colors.white,
+                ),
+              )
+            ],
+          ),
+          const SizedBox(height: 3),
+          const Divider(
+            color: Colors.white,
+          ),
+          const SizedBox(height: 2),
+          Row(
+            children: [
+              const SizedBox(
+                width: 10,
+              ),
+              const Icon(
+                Icons.account_box_outlined,
+                color: Colors.red,
+                size: 30,
+              ),
+              const SizedBox(
+                width: 15,
+              ),
+              const Text(
+                'Eliminar conta',
+                style: TextStyle(color: Colors.white),
+              ),
+              const SizedBox(
+                width: 210,
+              ),
+              IconButton(
+                onPressed: () {
+                  showDialog(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return AlertDialog(
+                        title: const Text('Eliminar Conta'),
+                        content:
+                            const Text('Prentende realmente eliminar a conta?'),
+                        actions: [
+                          TextButton(
+                            onPressed: () {
+                              // Fechar o popup
+                              Navigator.of(context).pop();
+                            },
+                            child: const Text('Cancelar'),
+                          ),
+                          TextButton(
+                            onPressed: deleteAccount,
+                            child: const Text('Eliminar'),
+                          ),
+                        ],
+                      );
+                    },
+                  );
+                },
+                icon: const Icon(
+                  Icons.arrow_forward_ios,
+                  color: Colors.white,
+                ),
+              )
+            ],
+          ),
+          const SizedBox(height: 6),
+          const Divider(
+            color: Colors.white,
+          ),
+          Row(
+            children: [
+              const SizedBox(
+                width: 57,
+              ),
+              const Text(
+                'Log Out',
+                style: TextStyle(color: Colors.white),
+              ),
+              const SizedBox(
+                width: 251,
+              ),
+              IconButton(
+                  onPressed: logout,
+                  icon: const Icon(
+                    Icons.logout,
+                    color: Colors.white,
+                  ))
+            ],
+          ),
+        ]),
+        bottomNavigationBar: BottomNavigationBar(
+          currentIndex: currentIndex,
+          onTap: (index) {
+            if (index == 0) {
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => const HomeScreen()));
+            }
+
+            if (index == 1) {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => const SettingsPage()));
+            }
+
+            if (index == 2) {
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => const HomeScreen()));
+            }
+
+            if (index == 3) {
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => const HomeScreen()));
+            }
+
+            if (index == 4) {
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => const HomeScreen()));
+            }
+
+            if (index == 5) {
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => const HomeScreen()));
+            }
+            if (index == 6) {
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => const InfoPage()));
+            }
+          },
+          unselectedItemColor: Colors.blue,
+          selectedItemColor: Colors.blueGrey,
+          items: const [
+            BottomNavigationBarItem(
+              icon: Icon(Icons.home),
+              label: 'Home',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.settings),
+              label: 'Settings',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.chat),
+              label: 'Chat',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.post_add),
+              label: 'Post',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.forum),
+              label: 'Forum',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.group),
+              label: 'Salas',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.info),
+              label: 'Info',
+            ),
+          ],
+        ),
+      );
     }
   }
 
@@ -536,13 +1022,6 @@ class SettingsPageState extends State<SettingsPage> {
     setState(() {
       userName = name;
       profilePhoto = foto;
-    });
-  }
-
-  void initSharedPreferences() async {
-    await prefsManager.init();
-    setState(() {
-      isSwitched = prefsManager.isSwitched;
     });
   }
 
@@ -697,8 +1176,11 @@ class SettingsPageState extends State<SettingsPage> {
     if (auth.currentUser != null) {
       try {
         // Excluir a conta no Firebase Authentication
-         final storageRef = FirebaseStorage.instance.ref().child('Profile_Pictures').child(auth.currentUser!.uid);
-         await storageRef.delete();
+        final storageRef = FirebaseStorage.instance
+            .ref()
+            .child('Profile_Pictures')
+            .child(auth.currentUser!.uid);
+        await storageRef.delete();
 
         // Excluir o documento correspondente no Cloud Firestore
         await FirebaseFirestore.instance
@@ -706,8 +1188,7 @@ class SettingsPageState extends State<SettingsPage> {
             .doc(auth.currentUser!.uid)
             .delete();
 
-      await auth.currentUser!.delete();
-       
+        await auth.currentUser!.delete();
 
         const snackBar = SnackBar(
           content: Text('Conta eliminada com sucesso'),
@@ -716,13 +1197,10 @@ class SettingsPageState extends State<SettingsPage> {
         ScaffoldMessenger.of(context).showSnackBar(snackBar);
         // ignore: use_build_context_synchronously
         Navigator.push(context,
-          MaterialPageRoute(builder: (context) => const HomeScreen1()));
-
-
+            MaterialPageRoute(builder: (context) => const HomeScreen1()));
       } catch (e) {
         var snackBar = SnackBar(
-          content:
-              Text('erro $e'),
+          content: Text('erro $e'),
         );
         ScaffoldMessenger.of(context).showSnackBar(snackBar);
       }
@@ -751,5 +1229,20 @@ class SettingsPageState extends State<SettingsPage> {
       );
       ScaffoldMessenger.of(context).showSnackBar(snackBar);
     }
+  }
+
+  Future<void> getSwitchValue() async {
+    SharedPreferencesService prefs =
+        await SharedPreferencesService.getInstance();
+    bool savedValue = prefs.getBool('isSwitched') ?? false;
+    setState(() {
+      isSwitched = savedValue;
+    });
+  }
+
+  Future<void> saveSwitchValue(bool value) async {
+    SharedPreferencesService prefs =
+        await SharedPreferencesService.getInstance();
+    prefs.setBool('isSwitched',value);
   }
 }
