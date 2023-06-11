@@ -53,37 +53,54 @@ class _SplashScreenState extends State {
 
   @override
   Widget build(BuildContext context) {
-    if (isSwitched != true) {
-      return const Scaffold(
-        body: SizedBox(
-          width: double.infinity,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Image(
-                image: AssetImage('assets/images/IPSCB_Logo1.png'),
-                width: 300,
-              )
-            ],
+    if (_auth.currentUser != null) {
+      if (isSwitched != true) {
+        return const Scaffold(
+          body: SizedBox(
+            width: double.infinity,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Image(
+                  image: AssetImage('assets/images/IPSCB_Logo1.png'),
+                  width: 300,
+                )
+              ],
+            ),
           ),
-        ),
-      );
+        );
+      } else {
+        return const Scaffold(
+          backgroundColor: Colors.black,
+          body: SizedBox(
+            width: double.infinity,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Image(
+                  image: AssetImage('assets/images/iconeDarkMode.png'),
+                  width: 300,
+                )
+              ],
+            ),
+          ),
+        );
+      }
     } else {
       return const Scaffold(
-        backgroundColor: Colors.black,
-        body: SizedBox(
-          width: double.infinity,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Image(
-                image: AssetImage('assets/images/iconeDarkMode.png'),
-                width: 300,
-              )
-            ],
+          body: SizedBox(
+            width: double.infinity,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Image(
+                  image: AssetImage('assets/images/IPSCB_Logo1.png'),
+                  width: 300,
+                )
+              ],
+            ),
           ),
-        ),
-      );
+        );
     }
   }
 
