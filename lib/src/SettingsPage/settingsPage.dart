@@ -249,6 +249,7 @@ class SettingsPageState extends State<SettingsPage> {
                                         fillColor: const Color.fromARGB(
                                             255, 234, 235, 255),
                                       ),
+                                      obscureText: true,
                                       validator: (value) {
                                         if (value == null ||
                                             value.isEmpty ||
@@ -713,6 +714,7 @@ class SettingsPageState extends State<SettingsPage> {
                                         fillColor: const Color.fromARGB(
                                             255, 234, 235, 255),
                                       ),
+                                      obscureText: true,
                                       validator: (value) {
                                         if (value == null ||
                                             value.isEmpty ||

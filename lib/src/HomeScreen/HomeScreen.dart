@@ -322,103 +322,105 @@ class HomeScreen1 extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.white,
-      appBar: PreferredSize(
-          preferredSize: const Size.fromHeight(100),
-          child: AppBar(
-            backgroundColor: Colors.white,
-            actions: [
-              Row(
-                children: [
-                  Align(
-                    alignment: Alignment.center,
-                    child: ElevatedButton(
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => const LoginPageForm()),
-                        );
-                      },
-                      style: ElevatedButton.styleFrom(
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(
-                              30.0), // Define o raio do botão
+      return Scaffold(
+        backgroundColor: Colors.white,
+        appBar: PreferredSize(
+            preferredSize: const Size.fromHeight(100),
+            child: AppBar(
+              backgroundColor: Colors.white,
+              actions: [
+                Row(
+                  children: [
+                    Align(
+                      alignment: Alignment.center,
+                      child: ElevatedButton(
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => const LoginPageForm()),
+                          );
+                        },
+                        style: ElevatedButton.styleFrom(
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(
+                                30.0), // Define o raio do botão
+                          ),
+                          backgroundColor:
+                              const Color.fromARGB(255, 150, 157, 252),
                         ),
-                        backgroundColor:
-                            const Color.fromARGB(255, 150, 157, 252),
+                        child: const Text('ENTRAR'),
                       ),
-                      child: const Text('ENTRAR'),
                     ),
+                  ],
+                ),
+              ],
+              flexibleSpace: FlexibleSpaceBar(
+                centerTitle: true,
+                background: Center(
+                  child: Image.asset(
+                    'assets/images/IPSCB_Logo1.png',
+                    fit: BoxFit.cover,
                   ),
-                ],
-              ),
-            ],
-            flexibleSpace: FlexibleSpaceBar(
-              centerTitle: true,
-              background: Center(
-                child: Image.asset(
-                  'assets/images/IPSCB_Logo1.png',
-                  fit: BoxFit.cover,
                 ),
               ),
+            )),
+        body: GridView.builder(
+            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: 2,
             ),
-          )),
-      body: GridView.builder(
-          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: 2,
-          ),
-          itemCount: logoImageDataset1.length,
-          itemBuilder: (BuildContext context, int index) {
-            return IconCard(
-              logoImage: logoImageDataset1[index],
-            );
-          }),
-      bottomNavigationBar: BottomNavigationBar(
-        currentIndex: 0, // Define o índice inicial selecionado
-        onTap: (index) {
-          if (index == 0) {
-            Navigator.push(context,
-                MaterialPageRoute(builder: (context) => const HomeScreen1()));
-          }
+            itemCount: logoImageDataset1.length,
+            itemBuilder: (BuildContext context, int index) {
+              return IconCard1(
+                logoImage: logoImageDataset1[index],
+              );
+            }),
+        bottomNavigationBar: BottomNavigationBar(
+          currentIndex: 0, // Define o índice inicial selecionado
+          onTap: (index) {
+            if (index == 0) {
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => const HomeScreen1()));
+            }
 
-          if (index == 1) {
-            Navigator.push(context,
-                MaterialPageRoute(builder: (context) => const SettingsPage()));
-          }
+            if (index == 1) {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => const SettingsPage()));
+            }
 
-          if (index == 2) {
-            Navigator.push(context,
-                MaterialPageRoute(builder: (context) => const HomeScreen1()));
-          }
+            if (index == 2) {
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => const HomeScreen1()));
+            }
 
-          if (index == 3) {
-            Navigator.push(context,
-                MaterialPageRoute(builder: (context) => const InfoPage()));
-          }
-        },
-        unselectedItemColor: Colors.blue,
-        selectedItemColor: Colors.blueGrey,
-        items: const [
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            label: 'Home',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.post_add),
-            label: 'Post',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.forum),
-            label: 'Forum',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.info),
-            label: 'Info',
-          ),
-        ],
-      ),
-    );
+            if (index == 3) {
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => const InfoPage()));
+            }
+          },
+          unselectedItemColor: Colors.blue,
+          selectedItemColor: Colors.blueGrey,
+          items: const [
+            BottomNavigationBarItem(
+              icon: Icon(Icons.home),
+              label: 'Home',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.post_add),
+              label: 'Post',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.forum),
+              label: 'Forum',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.info),
+              label: 'Info',
+            ),
+          ],
+        ),
+      );
   }
 }
