@@ -24,15 +24,15 @@ class _SplashScreenState extends State {
   @override
   void initState() {
     super.initState();
-    getSwitchValue();
     navigateToNextScreen();
+    getSwitchValue();
   }
 
   void navigateToNextScreen() {
     if (_auth.currentUser != null) {
       // Exemplo de navegação para a próxima tela após 2 segundos
       Future.delayed(const Duration(seconds: 2), () {
-        Navigator.push(
+        Navigator.pushReplacement(
           context,
           MaterialPageRoute(
             builder: (context) => const HomeScreen(),
@@ -41,7 +41,7 @@ class _SplashScreenState extends State {
       });
     } else {
       Future.delayed(const Duration(seconds: 2), () {
-        Navigator.push(
+        Navigator.pushReplacement(
           context,
           MaterialPageRoute(
             builder: (context) => const HomeScreen1(),
