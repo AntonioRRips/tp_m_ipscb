@@ -166,7 +166,7 @@ class LoginPage extends State<LoginPageForm> {
                               builder: (context) => const RegistoPageForm()),
                         );
                       },
-                      child: const Column(children: [
+                      child: Column(children: const [
                         Text('CRIAR CONTA',
                             style: TextStyle(
                                 color: Colors.blue, // Cor do texto
@@ -185,26 +185,23 @@ class LoginPage extends State<LoginPageForm> {
           setState(() {});
           if (index == 0) {
             Navigator.pushReplacement(context,
-                MaterialPageRoute(builder: (context) =>  const HomeScreen1()));
+                MaterialPageRoute(builder: (context) => const HomeScreen1()));
           }
 
           if (index == 1) {
-            Navigator.pushReplacement(
-                context,
-                MaterialPageRoute(
-                    builder: (context) => const SettingsPage()));
+            Navigator.pushReplacement(context,
+                MaterialPageRoute(builder: (context) => const SettingsPage()));
           }
 
           if (index == 2) {
             Navigator.pushReplacement(context,
-                MaterialPageRoute(builder: (context) =>  const HomeScreen1()));
+                MaterialPageRoute(builder: (context) => const HomeScreen1()));
           }
 
           if (index == 3) {
             Navigator.push(context,
-                MaterialPageRoute(builder: (context) =>  const InfoPage()));
+                MaterialPageRoute(builder: (context) => const InfoPage()));
           }
-          
         },
         unselectedItemColor: Colors.blue,
         selectedItemColor: Colors.blueGrey,
@@ -221,7 +218,7 @@ class LoginPage extends State<LoginPageForm> {
             icon: Icon(Icons.forum),
             label: 'Forum',
           ),
-           BottomNavigationBarItem(
+          BottomNavigationBarItem(
             icon: Icon(Icons.info),
             label: 'Info',
           ),
@@ -230,13 +227,11 @@ class LoginPage extends State<LoginPageForm> {
     );
   }
 
-
   Future<void> loginWithEmail() async {
     final auth = FirebaseAuth.instance;
     try {
       final String email = _emailController.text.trim();
       final String password = _passwordController.text.trim();
-      
 
       final UserCredential userCredential =
           await auth.signInWithEmailAndPassword(
@@ -249,20 +244,20 @@ class LoginPage extends State<LoginPageForm> {
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) =>  const HomeScreen(),
+            builder: (context) => const HomeScreen(),
           ),
         );
       } else {
-       const snackBar = SnackBar(
+        const snackBar = SnackBar(
           content: Text('Erro: Email ou senha incorretos'),
         );
         ScaffoldMessenger.of(context).showSnackBar(snackBar);
       }
     } catch (e) {
       const snackBar = SnackBar(
-          content: Text('Erro: Email ou senha incorretos'),
-        );
-        ScaffoldMessenger.of(context).showSnackBar(snackBar);
+        content: Text('Erro: Email ou senha incorretos'),
+      );
+      ScaffoldMessenger.of(context).showSnackBar(snackBar);
     }
   }
 }

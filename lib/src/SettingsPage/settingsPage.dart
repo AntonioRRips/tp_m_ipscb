@@ -64,18 +64,18 @@ class SettingsPageState extends State<SettingsPage> {
                   fit: BoxFit
                       .cover, // Ajustar a imagem ao tamanho do espaço disponível
                 ),
-                const Row(
+                Row(
                   children: [
-                    SizedBox(
+                    const SizedBox(
                       width: 25,
                     ),
-                    Icon(
+                    const Icon(
                       Icons.settings_suggest_outlined,
                       color: Colors.blue,
                       size: 30,
                     ),
                     Column(
-                      children: [
+                      children: const [
                         SizedBox(
                           height: 15,
                         ),
@@ -514,18 +514,18 @@ class SettingsPageState extends State<SettingsPage> {
                   fit: BoxFit
                       .cover, // Ajustar a imagem ao tamanho do espaço disponível
                 ),
-                const Row(
+                Row(
                   children: [
-                    SizedBox(
+                    const SizedBox(
                       width: 25,
                     ),
-                    Icon(
+                    const Icon(
                       Icons.settings_suggest_outlined,
                       color: Colors.white,
                       size: 30,
                     ),
                     Column(
-                      children: [
+                      children: const [
                         SizedBox(
                           height: 15,
                         ),

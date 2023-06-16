@@ -55,12 +55,12 @@ class _SplashScreenState extends State {
   Widget build(BuildContext context) {
     if (_auth.currentUser != null) {
       if (isSwitched != true) {
-        return const Scaffold(
+        return Scaffold(
           body: SizedBox(
             width: double.infinity,
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
-              children: [
+              children: const [
                 Image(
                   image: AssetImage('assets/images/IPSCB_Logo1.png'),
                   width: 300,
@@ -70,13 +70,13 @@ class _SplashScreenState extends State {
           ),
         );
       } else {
-        return const Scaffold(
+        return Scaffold(
           backgroundColor: Colors.black,
           body: SizedBox(
             width: double.infinity,
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
-              children: [
+              children: const [
                 Image(
                   image: AssetImage('assets/images/iconeDarkMode.png'),
                   width: 300,
@@ -87,20 +87,20 @@ class _SplashScreenState extends State {
         );
       }
     } else {
-      return const Scaffold(
-          body: SizedBox(
-            width: double.infinity,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Image(
-                  image: AssetImage('assets/images/IPSCB_Logo1.png'),
-                  width: 300,
-                )
-              ],
-            ),
+      return Scaffold(
+        body: SizedBox(
+          width: double.infinity,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: const [
+              Image(
+                image: AssetImage('assets/images/IPSCB_Logo1.png'),
+                width: 300,
+              )
+            ],
           ),
-        );
+        ),
+      );
     }
   }
 
